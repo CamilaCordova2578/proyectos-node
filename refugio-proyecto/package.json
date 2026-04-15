@@ -1,0 +1,13 @@
+{
+  "name": "refugio-proyecto",
+  "version": "1.0.0",
+  "description": "\"Servidor de mascotas con Node.js\"",
+  "license": "ISC",
+  "author": "Camila",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev" : "node --env-file=.env --watch server.js",
+    "start" : "node --env-file-if-exists=.env server.js"
+  }
+}
