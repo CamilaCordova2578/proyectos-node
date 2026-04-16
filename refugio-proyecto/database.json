@@ -1,0 +1,27 @@
+[
+    {
+        "id" : 1,
+        "nombre" : "Luna",
+        "especie" : "gato",
+        "descripcion" : "Tranquila",
+        "edad" : 2,
+        "adoptado" : false
+    },
+    {
+        "id" : 2,
+        "nombre" : "Copito",
+        "especie" : "perro",
+        "descripcion" : "Jugeton",
+        "edad" : 4,
+        "adoptado" : true
+    },
+    {
+        "id" : 3,
+        "nombre" : "Pelusa",
+        "especie" : "gato",
+        "descripcion" : "Tranquila",
+        "edad" : 5,
+        "adoptado" : true
+    }
+
+]
