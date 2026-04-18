@@ -3,7 +3,8 @@ import http from 'node:http';
 import datos from './database.json' with {type : "json"};
 //para archivos estaticos y sus rutas
 import fs from 'node:fs';
-import path from 'node:path';
+//Convertir file:///C:/ a C:\
+import { fileURLToPath } from 'node:url';
 
 
 
@@ -12,9 +13,10 @@ let indexId = 3;
 //base de nuestra URL
 const  base = "http://localhost:8080";
 
+
 //Ubicacion de nuestro archivo actual
 const rutaActual = import.meta.url;
-console.log(rutaActual)
+
 
 http.createServer((req, res) =>{
     let body = [];
@@ -26,7 +28,7 @@ http.createServer((req, res) =>{
     //1. Protocolo GET y ruta /
     if( method === 'GET' && url === '/'){
         //2.1. Obteniendo la ruta de nuestro archivo index.html
-        const rutaIndex = new URL('./public/index.html', rutaActual);
+        const rutaIndex = fileURLToPath(new URL('./public/index.html', rutaActual));
         
         //1.2. Leer el archivo .html, fs.readFile()
         //1er parametro: La Ruta
@@ -48,8 +50,9 @@ http.createServer((req, res) =>{
             res.statusCode = 200;
             res.setHeader('Content-Type', 'text/html');
             res.end(data);
-            return;
+            
         });
+        return;
     }
 
     //2. Si se quiere acceder a nuestra api donde devolvemos json usamos esta validacion
@@ -85,15 +88,12 @@ http.createServer((req, res) =>{
             return true; // si no hay filtros , se devuelve todo
         });
 
-        if (mascotaEncontrada.length > 0) {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ data: mascotaEncontrada }));
-        } else {
-            res.statusCode = 404;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ error: "No se pudo encontrar la mascota" }));
-        }
+       
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ data: mascotaEncontrada }));
+    
+
     }
 
 
