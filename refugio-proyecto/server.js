@@ -4,7 +4,7 @@ import datos from './database.json' with {type : "json"};
 //para archivos estaticos y sus rutas
 import fs from 'node:fs';
 import path from 'node:path';
-import { error } from 'node:console';
+
 
 
 //Variable auxiliar para generar los IDs
@@ -12,9 +12,9 @@ let indexId = 3;
 //base de nuestra URL
 const  base = "http://localhost:8080";
 
-const mascota1 = datos[0].id;
-console.log(mascota1)
-
+//Ubicacion de nuestro archivo actual
+const rutaActual = import.meta.url;
+console.log(rutaActual)
 
 http.createServer((req, res) =>{
     let body = [];
@@ -26,7 +26,7 @@ http.createServer((req, res) =>{
     //1. Protocolo GET y ruta /
     if( method === 'GET' && url === '/'){
         //2.1. Obteniendo la ruta de nuestro archivo index.html
-        const rutaIndex = path.join(__dirname, 'public', 'index.html');
+        const rutaIndex = new URL('./public/index.html', rutaActual);
         
         //1.2. Leer el archivo .html, fs.readFile()
         //1er parametro: La Ruta

@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "nombre": "Luna",
+    "especie": "gato",
+    "edad": 2,
+    "descripcion": "Tranquila y cariñosa",
+    "adoptado": false
+  },
+  {
+    "id": 2,
+    "nombre": "Max",
+    "especie": "perro",
+    "edad": 4,
+    "descripcion": "Energético y juguetón",
+    "adoptado": true
+  },
+  {
+    "id": 3,
+    "nombre": "Michi",
+    "especie": "gato",
+    "edad": 3,
+    "descripcion": "Curioso y travieso",
+    "adoptado": false
+  },
+  {
+    "id": 4,
+    "nombre": "Rocky",
+    "especie": "perro",
+    "edad": 1,
+    "descripcion": "Muy activo y le encanta correr",
+    "adoptado": false
+  }
+]
