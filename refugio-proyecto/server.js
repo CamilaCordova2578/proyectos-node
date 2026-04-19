@@ -63,15 +63,40 @@ http.createServer((req, res) =>{
         return;
     }
 
+    //3. Buscar a una mascota por id ==>  GET /api/mascotas/:id
+    //Usando Path params y no Query Params
+    const pathParts = urlMascota.pathname.split('/'); // ['', api, mascotas, id]
+    //isNaN() para ver si el numero es valido 
+    // incorrecto: NaN !== NaN true, parseInt('hola') ==> NaN
+
+    if(method === 'GET' &&  pathParts.length ===  4 && pathParts[1] === 'api' && pathParts[2] === 'mascotas' && !isNaN(pathParts[3])){
+        //Obteniendo idMascota
+        const idMascota = parseInt(pathParts[3]);
+        const mascotaEncontrada = datos.find( mascota => {
+            return mascota.id === idMascota;
+        })
+
+        if(mascotaEncontrada){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ data : mascotaEncontrada}));
+        }
+        else{
+            res.statusCode = 404;
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify({error : "No se encontro la mascota"}));
+        }
+    }
+
     
-    //3. Acceder a todas las mascotas que sean gatos y tengan 2 anios
-    let mascotaEncontrada = [];
+    //4. Acceder a todas las mascotas que sean gatos y tengan 2 anios
+    let mascotasEncontradas = [];
     const especie = urlMascota.searchParams.get('especie');
     const edad = parseInt(urlMascota.searchParams.get('edad'));
 
     if (method === 'GET' && urlMascota.pathname === "/api/mascotas") {
 
-        mascotaEncontrada = datos.filter(mascota => {
+        mascotasEncontradas = datos.filter(mascota => {
 
             if (especie && edad) { //primer filtro para descartar lo demas
                 return mascota.especie === especie && mascota.edad === edad // if(mascota.especie === especie  && mascota.edad === edad) { return mascota};
@@ -91,10 +116,12 @@ http.createServer((req, res) =>{
        
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ data: mascotaEncontrada }));
+        res.end(JSON.stringify({ data: mascotasEncontradas }));
     
 
     }
+
+    
 
 
 }).listen(8080, () => {console.log("Corriendo en http://localhost:8080")});
