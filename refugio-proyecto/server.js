@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 
 //Variable auxiliar para generar los IDs
-let indexId = 3;
+let indexId = 5;
 //base de nuestra URL
 const  base = "http://localhost:8080";
 
@@ -119,6 +119,46 @@ http.createServer((req, res) =>{
         res.end(JSON.stringify({ data: mascotasEncontradas }));
     
 
+    }
+
+    if (method === 'POST' && urlMascota.pathname === "/api/mascotas"){
+       //Validamos el header, que sea json, los headers en Node vienen en minusculas
+        const contentType = headers['content-type'];
+        if(!contentType || !contentType.includes('application/json')){
+            res.statusCode = 415;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({error: 'No se admite es formato'}));
+            return;
+        }
+        let body = [];
+        req
+        .on('error', err => {
+            console.log(`Existio un error en request: ${err}`);
+        })
+        .on('data', chunk => {
+            body.push(chunk);
+        })
+        .on('end', () => {
+            body = Buffer.concat(body).toString();
+            try{
+                const datosNuevaMascota = JSON.parse(body);
+                datosNuevaMascota.id = indexId;
+                datos.push(datosNuevaMascota);
+                indexId++;
+                res.statusCode = 201;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({mensaje : `Mascota agregada`, datosNuevaMascota}))
+            }
+            catch (err){
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({error : 'JSON invalido'}));
+
+            }
+
+        })
+        return;
+        
     }
 
     
